@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
-function useForm(defaults = {}) {
-  const [values, setValues] = useState(defaults);
-//   const [queueMessage, setQueueMessage] = useState(defaults);
-//   const [socketMessage, setSocketMessage] = useState(defaults);
+function useForm(callback) {
+  const [values, setValues] = useState({});
 
   const handleChange = e => {
     setValues({...values, [e.target.name]: e.target.value});
@@ -13,8 +11,9 @@ function useForm(defaults = {}) {
     e.preventDefault();
     e.target.reset();
 
-    Q.publish('deeds', 'work', values);
-    socket.emit('words', values);
+    if(callback){
+      callback(values);
+    }
 
   };
 
